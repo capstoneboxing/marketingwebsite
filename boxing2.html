@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en"><
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPredict</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --crimson:#B10F2E;--black:#0B0A07;--white:#FEFFFE;
+  --forest:#14591D;--volt:#E4FF1A;
+  --border:rgba(254,255,254,0.12);
+  --mono:'Space Mono',monospace;--sans:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--sans);overflow-x:hidden;}
+.mono{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.5);}
+
+.try-app{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--black);background:var(--volt);
+  padding:10px 20px;text-decoration:none;
+  border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap;
+}
+.try-app:hover{opacity:.85;}
+.try-app::after{content:'→';font-size:12px;}
+
+.try-app-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--volt);background:transparent;
+  padding:10px 20px;text-decoration:none;
+  border:1px solid rgba(228,255,26,.4);cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.try-app-ghost:hover{background:rgba(228,255,26,.08);}
+.try-app-ghost::after{content:'→';font-size:12px;}
+
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  background:rgba(11,10,7,.96);backdrop-filter:blur(16px);
+  border-bottom:2px solid var(--crimson);
+  height:56px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 40px;
+  gap:12px;
+}
+.nav-logo{
+  font-weight:900;font-size:18px;letter-spacing:-.04em;
+  color:var(--white);text-decoration:none;display:flex;align-items:center;flex-shrink:0;
+}
+.nav-logo em{color:var(--crimson);font-style:normal;margin-left:2px;}
+
+@keyframes brand-glow{
+  0%,100%{text-shadow:0 0 8px rgba(228,255,26,.9),0 0 20px rgba(228,255,26,.45);}
+  50%{text-shadow:0 0 14px rgba(228,255,26,1),0 0 32px rgba(228,255,26,.65);}
+}
+.nav-brand-label{
+  font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.18em;
+  color:var(--volt);
+  flex-shrink:0;white-space:nowrap;
+  border-left:1px solid rgba(254,255,254,.1);
+  padding-left:16px;margin-left:4px;
+  animation:brand-glow 2.8s ease-in-out infinite;
+}
+
+.nav-links{display:flex;list-style:none;height:100%;align-items:stretch;flex-wrap:nowrap;}
+.nav-links li{display:flex;align-items:stretch;}
+.nav-links a{
+  font-family:var(--mono);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:rgba(254,255,254,.45);
+  text-decoration:none;
+  padding:0 14px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  transition:color .2s;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:2px;
+  background:var(--volt);
+  transition:width .3s ease;
+}
+
+
+.nav-links a:hover{
+  color:var(--volt);
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+
+.nav-links a.on{
+  text-shadow:0 0 8px rgba(228,255,26,.8);
+}
+.nav-links a.on::after{
+  width:100%;
+}
+
+@keyframes volt-pulse{
+  0%,100%{text-shadow:0 0 8px rgba(228,255,26,.9),0 0 20px rgba(228,255,26,.5),0 0 40px rgba(228,255,26,.2);}
+  50%{text-shadow:0 0 12px rgba(228,255,26,1),0 0 28px rgba(228,255,26,.7),0 0 55px rgba(228,255,26,.3);}
+}
+
+.nav-contact-btn{
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--white);background:transparent;border:1px solid rgba(254,255,254,.25);
+  padding:8px 16px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;
+}
+.nav-contact-btn:hover{border-color:var(--volt);color:var(--volt);}
+.nav-try{
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--black);background:var(--volt);
+  border:none;padding:9px 20px;cursor:pointer;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0;
+}
+.nav-try:hover{opacity:.85;}
+
+
+.corn{position:fixed;width:30px;height:30px;pointer-events:none;z-index:1000;}
+.corn-tl{top:64px;left:0;border-right:1px solid rgba(228,255,26,.2);border-bottom:1px solid rgba(228,255,26,.2);}
+.corn-br{bottom:0;right:0;border-left:1px solid rgba(228,255,26,.2);border-top:1px solid rgba(228,255,26,.2);}
+
+
+.ticker{background:var(--crimson);padding:10px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-block;animation:tick 22s linear infinite;}
+.ticker-inner span{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--white);padding:0 36px;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+
+#home{
+  padding-top:56px;display:grid;grid-template-columns:1.3fr .7fr;
+  min-height:100vh;border-bottom:1px solid var(--border);
+}
+.hero-img{
+  position:relative;overflow:hidden;
+  background:url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+  filter:grayscale(1) contrast(1.15);border-right:1px solid var(--border);
+}
+.hero-overlay{position:absolute;inset:0;background:rgba(177,15,46,.18);}
+.hero-content{padding:60px 40px 48px;display:flex;flex-direction:column;justify-content:space-between;}
+.live-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--volt);animation:blink 2s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.hero-title{font-size:clamp(58px,8vw,120px);font-weight:900;line-height:.83;letter-spacing:-.06em;}
+.hero-title em{color:var(--crimson);font-style:normal;}
+.hero-desc{font-size:13px;line-height:1.65;color:rgba(254,255,254,.55);max-width:260px;margin-top:24px;}
+.hero-cta-row{display:flex;align-items:center;gap:16px;margin-top:32px;flex-wrap:wrap;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:40px;}
+.stat-box{background:var(--black);padding:18px 20px;}
+.stat-val{font-size:20px;font-weight:900;letter-spacing:-.03em;color:var(--volt);line-height:1.2;}
+
+
+#about{border-bottom:1px solid var(--border);}
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);}
+.about-grid{padding:80px 40px;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;}
+.sec-title-lg{font-size:clamp(36px,5vw,72px);font-weight:900;letter-spacing:-.05em;line-height:.88;}
+.red-bar{width:44px;height:4px;background:var(--crimson);margin:22px 0;}
+.volt-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--volt);margin-bottom:10px;}
+.body-text{font-size:13px;line-height:1.7;color:rgba(254,255,254,.55);}
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.about-stat-row{display:flex;margin-top:40px;border-top:1px solid var(--border);padding-top:40px;}
+.about-stat{flex:1;padding-right:24px;border-right:1px solid var(--border);margin-right:24px;}
+.about-stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.about-stat-val{font-size:28px;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:6px;}
+.about-cta-strip{background:#0f0e0b;border-top:1px solid var(--border);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+
+
+
+#how-it-works{border-bottom:1px solid var(--border);}
+.hiw-intro{padding:80px 40px 48px;display:grid;grid-template-columns:1fr 1.8fr;gap:80px;align-items:start;}
+.hiw-steps{padding:0 40px 80px;}
+.hiw-step{
+  display:grid;grid-template-columns:auto 1fr auto;gap:0;
+  border:1px solid var(--border);margin-bottom:1px;
+  background:var(--black);transition:background .2s;cursor:default;
+}
+.hiw-step:hover{background:#0e0d0a;}
+.hiw-step-num{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  color:rgba(254,255,254,.2);padding:28px 24px;border-right:1px solid var(--border);
+  display:flex;align-items:flex-start;padding-top:30px;width:64px;justify-content:center;
+}
+.hiw-step-body{padding:28px 32px;}
+.hiw-step-title{font-size:15px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--white);}
+.hiw-step-desc{font-size:12px;line-height:1.7;color:rgba(254,255,254,.5);}
+.hiw-step-tag{
+  padding:28px 24px;display:flex;align-items:flex-start;padding-top:30px;
+  border-left:1px solid var(--border);
+}
+.hiw-tag-pill{
+  font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--black);background:var(--volt);padding:4px 10px;white-space:nowrap;
+}
+
+.hiw-screens{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);}
+.hiw-screen-card{background:var(--black);overflow:hidden;position:relative;}
+.hiw-screen-img-wrap{
+  width:100%;aspect-ratio:16/10;overflow:hidden;position:relative;
+  background:#0e0d0a;
+}
+.hiw-screen-img-wrap img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.hiw-screen-card:hover .hiw-screen-img-wrap img{transform:scale(1.03);}
+.hiw-screen-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(11,10,7,.85));
+  height:45%;pointer-events:none;
+}
+.hiw-screen-label{padding:16px 20px;border-top:1px solid var(--border);}
+
+
+.hiw-benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);}
+.hiw-benefit{background:var(--black);padding:28px 24px;}
+.hiw-benefit-icon{font-size:20px;margin-bottom:14px;color:var(--volt);}
+.hiw-benefit-title{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;}
+.hiw-benefit-text{font-size:11px;line-height:1.6;color:rgba(254,255,254,.45);}
+
+
+#developers{border-bottom:1px solid var(--border);}
+.dev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);}
+.dev-card{background:var(--black);display:flex;flex-direction:column;transition:background .2s;overflow:hidden;}
+.dev-card:hover{background:#111109;}
+.dev-photo-wrap{width:100%;aspect-ratio:4/3;overflow:hidden;position:relative;background:#1a1a17;}
+.dev-photo-wrap img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);transition:filter .4s,transform .5s cubic-bezier(.16,1,.3,1);}
+.dev-card:hover .dev-photo-wrap img{filter:grayscale(.2) contrast(1.1);transform:scale(1.04);}
+.dev-photo-badge{position:absolute;bottom:0;left:0;right:0;background:rgba(11,10,7,.85);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.dev-info{padding:20px;flex:1;display:flex;flex-direction:column;}
+.dev-name{font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:-.03em;margin-bottom:4px;color:var(--white);}
+.dev-bio{font-size:12px;line-height:1.65;color:rgba(254,255,254,.5);margin-top:10px;flex:1;}
+.dev-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:14px;margin-top:14px;border-top:1px solid var(--border);}
+.dev-sv{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--volt);}
+
+
+#contact-strip{
+  background:#0f0e0b;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:48px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+}
+.contact-strip-text h3{font-size:28px;font-weight:900;letter-spacing:-.04em;margin-bottom:8px;}
+.contact-strip-text p{font-size:13px;color:rgba(254,255,254,.5);max-width:400px;line-height:1.65;}
+.contact-strip-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+.contact-btn-main{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--black);background:var(--volt);
+  padding:14px 28px;border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap;
+}
+.contact-btn-main:hover{opacity:.85;}
+.contact-btn-main::after{content:'→';font-size:12px;}
+
+
+.modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(11,10,7,.92);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{
+  background:#0f0e0b;border:1px solid var(--border);
+  width:100%;max-width:780px;max-height:90vh;overflow-y:auto;position:relative;
+}
+.modal-header{
+  padding:28px 32px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+}
+.modal-title{font-size:22px;font-weight:900;letter-spacing:-.04em;}
+.modal-close{
+  background:none;border:1px solid rgba(254,255,254,.15);color:rgba(254,255,254,.5);
+  width:32px;height:32px;cursor:pointer;font-size:16px;transition:all .2s;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{border-color:var(--crimson);color:var(--white);}
+
+
+.modal-inner{display:grid;grid-template-columns:1.1fr 0.9fr;}
+.modal-body{padding:28px 32px;border-right:1px solid var(--border);}
+.modal-contact-info{padding:28px 28px;}
+.modal-contact-info h4{
+  font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:18px;
+  border-bottom:1px solid var(--border);padding-bottom:14px;color:var(--white);
+}
+.contact-info-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;}
+.contact-info-icon{
+  width:32px;height:32px;background:rgba(228,255,26,.07);border:1px solid rgba(228,255,26,.18);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;
+}
+.contact-info-label{
+  font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.12em;
+  color:rgba(254,255,254,.35);margin-bottom:5px;
+}
+.contact-info-value{font-size:12px;color:rgba(254,255,254,.7);line-height:1.55;}
+
+.modal-note{
+  background:rgba(228,255,26,.06);border:1px solid rgba(228,255,26,.15);
+  padding:12px 16px;margin-bottom:24px;
+}
+.modal-note p{font-size:11px;line-height:1.6;color:rgba(254,255,254,.5);}
+.modal-note strong{color:var(--volt);font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px;}
+.form-group{margin-bottom:18px;}
+.form-group label{
+  display:block;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;
+  color:rgba(254,255,254,.4);margin-bottom:8px;
+}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;background:#111109;border:1px solid rgba(254,255,254,.12);
+  color:var(--white);font-family:var(--sans);font-size:13px;padding:11px 14px;
+  outline:none;transition:border-color .2s;resize:vertical;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(228,255,26,.5);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(254,255,254,.2);}
+.form-group select option{background:#111109;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-submit{
+  width:100%;padding:14px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--black);background:var(--volt);border:none;cursor:pointer;transition:opacity .2s;
+  margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.form-submit:hover{opacity:.85;}
+.form-submit:disabled{opacity:.5;cursor:not-allowed;}
+.form-success{
+  text-align:center;padding:40px 20px;display:none;flex-direction:column;align-items:center;gap:12px;
+}
+.form-success-icon{font-size:36px;color:var(--volt);}
+.form-success h3{font-size:18px;font-weight:900;letter-spacing:-.03em;}
+.form-success p{font-size:12px;color:rgba(254,255,254,.5);line-height:1.65;}
+
+#tutorial{border-bottom:1px solid var(--border);}
+.tut-wrap{display:flex;justify-content:center;padding:40px;background:var(--black);}
+.tut-item{width:100%;max-width:900px;background:var(--black);display:flex;flex-direction:column;border:1px solid var(--border);}
+.tut-video-wrap video{width:100%;height:100%;object-fit:cover;display:block;}
+.tut-info{padding:28px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:12px;}
+.tut-title{font-size:20px;font-weight:900;letter-spacing:-.03em;}
+.tut-meta{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--border);}
+.tut-meta-item{display:flex;flex-direction:column;gap:4px;}
+.tut-cta{padding:0 28px 28px;}
+
+footer{
+  background:var(--forest);padding:48px 40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;
+}
+.foot-logo{font-weight:900;font-size:28px;letter-spacing:-.05em;line-height:1;}
+.foot-logo em{color:var(--volt);font-style:normal;}
+.foot-tagline{font-size:12px;line-height:1.6;color:rgba(254,255,254,.55);margin-top:12px;max-width:260px;}
+.foot-right{display:flex;flex-direction:column;gap:20px;align-items:flex-end;}
+.foot-nav{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;}
+.foot-nav a{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.4);text-decoration:none;transition:color .2s;}
+.foot-nav a:hover{color:var(--volt);}
+.foot-copy{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.25);}
+
+@media(max-width:1200px){
+  .dev-grid{grid-template-columns:repeat(2,1fr);}
+  .hiw-benefits{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:1024px){
+  #home{grid-template-columns:1fr;}
+  .hero-img{height:45vh;border-right:none;border-bottom:1px solid var(--border);}
+  .about-grid{grid-template-columns:1fr;gap:40px;padding:40px 20px;}
+  .about-cols{grid-template-columns:1fr;}
+  nav{padding:0 16px;}
+  footer{grid-template-columns:1fr;}
+  .foot-right{align-items:flex-start;}
+  .tut-wrap{padding:20px;}
+  .hiw-intro{grid-template-columns:1fr;gap:40px;padding:40px 20px;}
+  .hiw-steps{padding:0 20px 40px;}
+  .hiw-screens{grid-template-columns:1fr;}
+  #contact-strip{padding:32px 20px;}
+  .nav-brand-label{display:none;}
+  .modal-inner{grid-template-columns:1fr;}
+  .modal-body{border-right:none;border-bottom:1px solid var(--border);}
+}
+@media(max-width:768px){
+  .hiw-benefits{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .hiw-step{grid-template-columns:auto 1fr;}
+  .hiw-step-tag{display:none;}
+  .nav-links a{padding:0 10px;font-size:9px;}
+}
+@media(max-width:640px){
+  .dev-grid{grid-template-columns:1fr;}
+  .stat-grid{grid-template-columns:1fr;}
+  .nav-links a{padding:7px 7px;font-size:8px;}
+  .sec-header{padding:16px 20px;}
+  footer{padding:32px 20px;}
+  .hiw-benefits{grid-template-columns:1fr;}
+  .modal-body,.modal-contact-info{padding:20px;}
+  .modal-header{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="corn corn-tl"></div>
+<div class="corn corn-br"></div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+    <a class="nav-logo" href="#home">BOX<em>PREDICT</em></a>
+    <span class="nav-brand-label">BoxPredict</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#developers">Developers</a></li>
+    <li><a href="#tutorial">Tutorial</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+    <button class="nav-contact-btn" onclick="openModal()">Contact Us</button>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="nav-try">Try the App</a>
+  </div>
+</nav>
+
+<section id="home">
+  <div class="hero-img"><div class="hero-overlay"></div></div>
+  <div class="hero-content">
+    <div>
+      <div class="live-row">
+        <div class="live-dot"></div>
+        <span class="mono" style="color:var(--volt);">Status: Active</span>
+      </div>
+      <h1 class="hero-title">BOX<br><em>PREDICT</em></h1>
+      <p class="hero-desc">The ultimate AI-powered boxing fight prediction platform. Compare fighters and predict match outcomes with data-driven precision.</p>
+      <div class="hero-cta-row">
+        <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+        <a href="#about" class="try-app-ghost">Learn More</a>
+      </div>
+    </div>
+    <div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="mono" style="margin-bottom:8px;">Powered By</div>
+          <div class="stat-val">AI Driven</div>
+        </div>
+        <div class="stat-box" style="border-left:1px solid var(--border);">
+          <div class="mono" style="margin-bottom:8px;">Data</div>
+          <div class="stat-val">Monthly Updates</div>
+        </div>
+        <div class="stat-box" style="border-top:1px solid var(--border);">
+          <div class="mono" style="margin-bottom:8px;">Design</div>
+          <div class="stat-val">User Friendly</div>
+        </div>
+        <div class="stat-box" style="border-left:1px solid var(--border);border-top:1px solid var(--border);">
+          <div class="mono" style="margin-bottom:8px;">Insights</div>
+          <div class="stat-val">Data Analytics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>BoxPredict</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Compare Fighters &amp; Predict Match Outcomes</span><span>//</span><span>Try the App Now</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+    <span>BoxPredict</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Compare Fighters &amp; Predict Match Outcomes</span><span>//</span><span>Try the App Now</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="sec-header">
+    <span class="mono">About the Project</span>
+    <span class="mono" style="color:var(--volt);">BoxPredict</span>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h2 class="sec-title-lg">Box<br>Predict</h2>
+      <div class="red-bar"></div>
+      <p class="body-text" style="max-width:280px;">A capstone project bringing data science and machine learning to boxing — making fight prediction accessible, transparent, and accurate.</p>
+      <div style="margin-top:32px;">
+        <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+      </div>
+    </div>
+    <div>
+      <div class="about-cols">
+        <div>
+          <div class="volt-label">01. Perfect Boxer</div>
+          <p class="body-text">We define a theoretical perfect boxer with maximum scores (10/10) across all 20 performance attributes in 5 categories. This upper-bound benchmark evaluates and ranks real fighters objectively.</p>
+        </div>
+        <div>
+          <div class="volt-label">02. Weighted Scoring</div>
+          <p class="body-text">Attributes are grouped into 5 categories — Performance Metrics (35%), Technical (22%), Tactical (16%), Anthropometric (15%), and Psychological (12%) — weighted by their proven impact on fight outcomes.</p>
+        </div>
+        <div>
+          <div class="volt-label">03. Score Calculation</div>
+          <p class="body-text">A fighter's overall score is computed as the weighted sum of their attribute ratings, producing a single comparable metric out of 10 that reflects their true competitive standing.</p>
+        </div>
+        <div>
+          <div class="volt-label">04. Prediction Engine</div>
+          <p class="body-text">Score differences between two fighters are fed through a sigmoid function to produce win probabilities. A base draw probability is factored in to account for closely matched fighters.</p>
+        </div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--volt);">1,200+</div>
+          <div class="mono">Fights Analyzed</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--crimson);">5</div>
+          <div class="mono">Attribute Categories</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val">20</div>
+          <div class="mono">Performance Attributes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-cta-strip">
+    <div>
+      <div class="volt-label" style="margin-bottom:6px;">Ready to make your prediction?</div>
+      <p class="body-text" style="max-width:440px;">Put our model to the test. Select two fighters, review the data, and see who our AI picks to win.</p>
+    </div>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="sec-header">
+    <span class="mono">Platform Walkthrough</span>
+    <span class="mono" style="color:var(--volt);">How It Works</span>
+  </div>
+
+  <div class="hiw-intro">
+    <div>
+      <h2 class="sec-title-lg">Built On<br>Science,<br>Not<br>Guesswork</h2>
+      <div class="red-bar"></div>
+      <p class="body-text" style="max-width:280px;">BoxPredict fuses sports science, fighter statistics, and machine learning into four simple steps that turn raw data into accurate fight predictions.</p>
+    </div>
+
+  
+    <div>
+      <div class="hiw-screens">
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="MatchPredict-Fighters.png" alt="Step 1 — Select Your Fighters">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Step 01</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Select Your Fighters</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Choose any two fighters from our database of professional boxers.</p>
+          </div>
+        </div>
+
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="step2.png" alt="Step 2 — Review Attribute Scores">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Step 02</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Review Attribute Scores</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Inspect each fighter's weighted scores across all 5 categories. Make Adjustments</p>
+          </div>
+        </div>
+
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="step3.png" alt="Step 3 — Generate Prediction">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Step 03</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Generate Prediction</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">See side-by-side composite scores based on who we predict will win the fight based on the given attributes.</p>
+          </div>
+        </div>
+
+        
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="step4.png" alt="Step 4 — Get Your Prediction">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Step 04</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Get Your Prediction</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Receive AI-generated win probabilities with full transparency on the reasoning.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="hiw-steps">
+    <div class="hiw-step">
+      <div class="hiw-step-num">01</div>
+      <div class="hiw-step-body">
+        <div class="hiw-step-title">Choose Two Fighters</div>
+        <p class="hiw-step-desc">Browse and select any two fighters from our curated database of professional boxers. Each fighter profile contains verified statistics across 20 performance attributes, sourced from official fight records and updated monthly.</p>
+      </div>
+      <div class="hiw-step-tag"><span class="hiw-tag-pill">Selection</span></div>
+    </div>
+    <div class="hiw-step">
+      <div class="hiw-step-num">02</div>
+      <div class="hiw-step-body">
+        <div class="hiw-step-title">Weighted Scoring System Activates</div>
+        <p class="hiw-step-desc">Our engine scores each fighter against a theoretical "perfect boxer" benchmark. Attributes are grouped into five weighted categories: Performance Metrics (35%), Technical Skills (22%), Tactical Ability (16%), Anthropometric Data (15%), and Psychological Factors (12%). Each attribute is rated out of 10.</p>
+      </div>
+      <div class="hiw-step-tag"><span class="hiw-tag-pill">Calculation</span></div>
+    </div>
+    <div class="hiw-step">
+      <div class="hiw-step-num">03</div>
+      <div class="hiw-step-body">
+        <div class="hiw-step-title">Composite Score Comparison</div>
+        <p class="hiw-step-desc">The weighted sum of all attribute scores produces the predicted win/lose probability of match . You can explore the attribute comparison as well as dive into Prediction Explanations — understanding exactly where one fighter has an edge over another, score difference interpretaion and quick reminder of uncertainty.</p>
+      </div>
+      <div class="hiw-step-tag"><span class="hiw-tag-pill">Analysis</span></div>
+    </div>
+    <div class="hiw-step">
+      <div class="hiw-step-num">04</div>
+      <div class="hiw-step-body">
+        <div class="hiw-step-title">Sigmoid Prediction Engine Delivers Results</div>
+        <p class="hiw-step-desc">The score differential between fighters is run through a sigmoid function to convert it into a win probability percentage. A base draw probability is also factored in — ensuring close matchups reflect real-world unpredictability. The result: a clear, data-backed prediction showing who is likely to win and by what margin.</p>
+      </div>
+      <div class="hiw-step-tag"><span class="hiw-tag-pill">Prediction</span></div>
+    </div>
+  </div>
+
+  <section id="otherpages">
+    <div>
+      <div class="hiw-screens">
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="CriteriaInputPage.png" alt="CriteriaInputPage">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">What Matters Most</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Criteria Input</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Choose what attributes matter most to you - Holds greater weight for a prediction</p>
+          </div>
+        </div>
+
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="BoxerDatabase.png" alt="BoxerDatabase">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Your Fighters</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">Boxer Database</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Admins are able to review what Boxers are currently available within the system.</p>
+          </div>
+        </div>
+
+
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="PredictionHistory.png" alt="PredictionHistory ">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">On Top</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">PredictionHistory</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">See all admin generated predictions stored to the database. Notable the accuract based on the correct,incorrect and draws predicions</p>
+          </div>
+        </div>
+
+
+        <div class="hiw-screen-card">
+          <div class="hiw-screen-img-wrap">
+            <img src="ResultsAnalysis.png" alt="ResultsAnalysis">
+            <div class="hiw-screen-overlay"></div>
+          </div>
+          <div class="hiw-screen-label">
+            <div class="volt-label" style="margin-bottom:4px;">Done Deals</div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:-.01em;">ResultsAnalysis</div>
+            <p style="font-size:11px;color:rgba(254,255,254,.4);margin-top:4px;line-height:1.5;">Visualise confidence levels and outcomes across all stored predictions.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="hiw-benefits">
+    <div class="hiw-benefit">
+      <div class="hiw-benefit-icon">◈</div>
+      <div class="hiw-benefit-title">Transparent Methodology</div>
+      <p class="hiw-benefit-text">No black boxes. Every score, weight, and probability is visible — so you understand the reasoning behind each prediction, not just the result.</p>
+    </div>
+    <div class="hiw-benefit">
+      <div class="hiw-benefit-icon">◎</div>
+      <div class="hiw-benefit-title">Objective Rankings</div>
+      <p class="hiw-benefit-text">Fighters are measured against a universal "perfect boxer" benchmark, eliminating bias from era, promotion, or fame. Pure performance, ranked objectively.</p>
+    </div>
+    <div class="hiw-benefit">
+      <div class="hiw-benefit-icon">◇</div>
+      <div class="hiw-benefit-title">Multi-Dimensional Analysis</div>
+      <p class="hiw-benefit-text">20 attributes across 5 categories go beyond win/loss records to capture technical skill, physical traits, ring IQ, and mental resilience — a complete fighter profile.</p>
+    </div>
+    <div class="hiw-benefit">
+      <div class="hiw-benefit-icon">▲</div>
+      <div class="hiw-benefit-title">Monthly Data Updates</div>
+      <p class="hiw-benefit-text">Fighter data is refreshed monthly to reflect recent bouts, form changes, and new performance metrics — keeping predictions current and relevant.</p>
+    </div>
+  </div>
+
+  <div class="about-cta-strip">
+    <div>
+      <div class="volt-label" style="margin-bottom:6px;">See It In Action</div>
+      <p class="body-text" style="max-width:440px;">The best way to understand BoxPredict is to use it. Launch the app and run your first prediction in under a minute.</p>
+    </div>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+  </div>
+</section>
+
+<section id="developers">
+  <div class="sec-header">
+    <span class="mono">System Architects</span>
+    <span class="mono" style="color:var(--volt);">Core Contributors</span>
+  </div>
+  <div class="dev-grid">
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Tywaine.jpg" alt="Tywaine Peters">
+        <div class="dev-photo-badge">
+          <span class="mono" style="color:var(--volt);">The Architect</span>
+        </div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">AI Developer</div>
+        <div class="dev-name">Tywaine Peters</div>
+        <p class="dev-bio">Tywaine leads the intelligence behind BoxPredict. He designed the prediction model, built the weighted scoring system, and engineered the engine that powers every fight outcome forecast on the platform.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">AI Data</div></div>
+          <div style="grid-column:1/-1;"><div class="mono" style="margin-bottom:4px;">Fav Quote</div><div style="font-family:var(--mono);font-size:9px;color:rgba(254,255,254,.35);letter-spacing:.02em;">"XYZ"</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Vanessa.jpg" alt="Vanessa Andrews">
+        <div class="dev-photo-badge">
+          <span class="mono" style="color:var(--volt);">The Visuals</span>
+        </div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Front-End Developer</div>
+        <div class="dev-name">Vanessa Andrews</div>
+        <p class="dev-bio">Vanessa is responsible for everything you see on BoxPredict. She crafted the user interface, built interactive fighter comparison views, and ensured the platform is responsive and intuitive across all devices — turning raw data into a clean, engaging experience.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">UI Design</div></div>
+          <div style="grid-column:1/-1;"><div class="mono" style="margin-bottom:4px;">Fav Quote</div><div style="font-family:var(--mono);font-size:9px;color:rgba(254,255,254,.35);letter-spacing:.02em;">"XYZ"</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Maurice.png" alt="Maurice Wright">
+        <div class="dev-photo-badge">
+          <span class="mono" style="color:var(--volt);">The Keeper</span>
+        </div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Documenter</div>
+        <div class="dev-name">Maurice Wright</div>
+        <p class="dev-bio">Maurice is the voice and memory of the team. He authored documentation, maintained the project running and ensured every design decision, algorithm and system change was recorded clearly for both the team and end users.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">Writing</div></div>
+          <div style="grid-column:1/-1;"><div class="mono" style="margin-bottom:4px;">Fav Quote</div><div style="font-family:var(--mono);font-size:9px;color:rgba(254,255,254,.35);letter-spacing:.02em;">"XYZ"</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Karnardia.png" alt="Karnardia Simpson">
+        <div class="dev-photo-badge">
+          <span class="mono" style="color:var(--volt);">The Websmith</span>
+        </div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Website &amp; Database</div>
+        <div class="dev-name">Karnardia Simpson</div>
+        <p class="dev-bio">Karnardia built and maintains the backbone of BoxPredict. She architected the database schema, managed fighter data pipelines, and developed this website for engagement and marketing.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">Web &amp; DB</div></div>
+          <div style="grid-column:1/-1;"><div class="mono" style="margin-bottom:4px;">Fav Quote</div><div style="font-family:var(--mono);font-size:9px;color:rgba(254,255,254,.35);letter-spacing:.02em;">"XYZ"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact-strip">
+    <div class="contact-strip-text">
+      <h3>Get In Touch</h3>
+      <p>Have questions about BoxPredict, want to collaborate, or just love boxing as much as we do? We'd love to hear from you. Fill out the form and we'll get back to you.</p>
+    </div>
+    <div class="contact-strip-btns">
+      <button class="contact-btn-main" onclick="openModal()">Contact Us</button>
+    </div>
+  </div>
+</section>
+
+<section id="tutorial">
+  <div class="sec-header">
+    <span class="mono">Platform Tutorial</span>
+    <span class="mono" style="color:var(--volt);">BoxPredict</span>
+  </div>
+  <div class="tut-wrap">
+    <div class="tut-item">
+      <div class="tut-video-wrap">
+        <video controls autoplay muted loop>
+          <source src="video.mp4" type="video/mp4">Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="tut-info">
+        <div class="volt-label">Tutorial — Getting Started</div>
+        <div class="tut-title">How to Use BoxPredict</div>
+        <p class="body-text">A quick walkthrough on how to navigate BoxPredict, select fighters from our database, interpret the scoring breakdown, and read your AI-generated fight prediction. Perfect for first-time users.</p>
+        <div class="tut-meta">
+          <div class="tut-meta-item"><div class="mono">Duration</div><div class="dev-sv">5 Min</div></div>
+        </div>
+      </div>
+      <div class="tut-cta">
+        <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app" style="width:100%;justify-content:center;">Try the App</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-logo">BOX<em>PREDICT</em></div>
+    <p class="foot-tagline">The ultimate AI-powered boxing fight prediction platform. Compare fighters and predict match outcomes.</p>
+  </div>
+  <div class="foot-right">
+    <nav class="foot-nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#developers">Developers</a>
+      <a href="#tutorial">Tutorial</a>
+      <a href="#" onclick="openModal();return false;">Contact</a>
+    </nav>
+    <p class="foot-copy">BoxPredict — Capstone 2025–2026</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="volt-label" style="margin-bottom:6px;">BoxPredict Team</div>
+        <div class="modal-title">Contact Us</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-inner" id="contactFormWrap">
+
+      <div class="modal-body">
+        <div class="modal-note">
+          <strong>How this works</strong>
+          <p>Fill out this form and your message will be sent directly to the BoxPredict team via email. We typically respond within 1–2 business days.</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="fName" placeholder="e.g. John" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="lName" placeholder="e.g. Smith" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="fEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Reason for Contact</label>
+          <select id="fReason">
+            <option value="">Select a reason…</option>
+            <option>General Enquiry</option>
+            <option>Collaboration / Partnership</option>
+            <option>Bug Report</option>
+            <option>Data / Fighter Request</option>
+            <option>Media &amp; Press</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message *</label>
+          <textarea id="fMessage" rows="5" placeholder="Tell us what's on your mind…" required></textarea>
+        </div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit()">
+          Send Message →
+        </button>
+      </div>
+
+      
+      <div class="modal-contact-info">
+        <h4>Our Details</h4>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <div class="contact-info-label">Location</div>
+            <div class="contact-info-value">Kingston, Jamaica</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">✉️</div>
+          <div>
+            <div class="contact-info-label">Email</div>
+            <div class="contact-info-value">capstoneboxing@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🕒</div>
+          <div>
+            <div class="contact-info-label">Response Hours</div>
+            <div class="contact-info-value">Mon – Fri: 9 AM – 6 PM<br>Weekends: Limited</div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);margin:20px 0;"></div>
+        <div class="volt-label" style="margin-bottom:10px;">Response Time</div>
+        <p style="font-size:11px;line-height:1.6;color:rgba(254,255,254,.4);">We aim to reply to all enquiries within 1–2 business days. For urgent matters, email us directly at capstoneboxing@gmail.com.</p>
+      </div>
+    </div>
+
+    
+    <div class="form-success" id="successMsg">
+      <div class="form-success-icon">✓</div>
+      <h3>Message Sent!</h3>
+      <p>Thanks for reaching out. Your message has been sent to the BoxPredict team. We'll be in touch soon.</p>
+      <button class="try-app" style="margin-top:12px;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+(function(){
+  const links = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+
+  function setActive(id){
+    links.forEach(link => {
+      link.classList.toggle('on', link.getAttribute('href') === '#' + id);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        setActive(entry.target.id);
+      }
+    });
+  }, {
+    root: null,
+    threshold: 0.3, // 🔥 triggers earlier
+    rootMargin: "-30% 0px -50% 0px" // 🔥 centers detection
+  });
+
+  sections.forEach(section => observer.observe(section));
+})();
+
+
+function openModal(){
+  document.getElementById('contactModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('contactModal').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    const wrap = document.getElementById('contactFormWrap');
+    wrap.style.display = 'grid';
+    document.getElementById('successMsg').style.display = 'none';
+    ['fName','fEmail','fMessage'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('lName').value = '';
+    document.getElementById('fReason').value = '';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.textContent = 'Send Message →';
+  }, 300);
+}
+function handleOverlayClick(e){
+  if(e.target === document.getElementById('contactModal')) closeModal();
+}
+
+
+function handleSubmit(){
+  const firstName = document.getElementById('fName').value.trim();
+  const lastName  = document.getElementById('lName').value.trim();
+  const email     = document.getElementById('fEmail').value.trim();
+  const reason    = document.getElementById('fReason').value;
+  const message   = document.getElementById('fMessage').value.trim();
+  if(!firstName || !lastName || !email || !message){
+    alert('Please fill in all required fields (marked with *).'); return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert('Please enter a valid email address.'); return;
+  }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  const subject = encodeURIComponent('BoxPredict Enquiry' + (reason ? ' — ' + reason : ''));
+  const body = encodeURIComponent('Name: '+firstName+' '+lastName+'\nEmail: '+email+'\nReason: '+(reason||'Not specified')+'\n\nMessage:\n'+message);
+  window.location.href = 'mailto:boxpredict.team@gmail.com?subject='+subject+'&body='+body;
+  setTimeout(() => {
+    document.getElementById('contactFormWrap').style.display = 'none';
+    const s = document.getElementById('successMsg');
+    s.style.display = 'flex';
+  }, 800);
+}
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
