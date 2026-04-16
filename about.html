@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPredict — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--crimson:#B10F2E;--black:#0B0A07;--white:#FEFFFE;--forest:#14591D;--volt:#E4FF1A;--border:rgba(254,255,254,0.12);--mono:'Space Mono',monospace;--sans:'Inter',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--sans);overflow-x:hidden;}
+.mono{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.5);}
+.try-app{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--black);background:var(--volt);padding:10px 20px;text-decoration:none;border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.try-app:hover{opacity:.85;}
+.try-app::after{content:'→';font-size:12px;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(11,10,7,.96);backdrop-filter:blur(16px);border-bottom:2px solid var(--crimson);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;gap:12px;}
+.nav-logo{font-weight:900;font-size:18px;letter-spacing:-.04em;color:var(--white);text-decoration:none;display:flex;align-items:center;flex-shrink:0;}
+.nav-logo em{color:var(--crimson);font-style:normal;margin-left:2px;}
+@keyframes brand-glow{0%,100%{text-shadow:0 0 8px rgba(228,255,26,.9),0 0 20px rgba(228,255,26,.45);}50%{text-shadow:0 0 14px rgba(228,255,26,1),0 0 32px rgba(228,255,26,.65);}}
+.nav-brand-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:var(--volt);flex-shrink:0;white-space:nowrap;border-left:1px solid rgba(254,255,254,.1);padding-left:16px;margin-left:4px;animation:brand-glow 2.8s ease-in-out infinite;}
+.nav-links{display:flex;list-style:none;height:100%;align-items:stretch;flex-wrap:nowrap;}
+.nav-links li{display:flex;align-items:stretch;}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.45);text-decoration:none;padding:0 14px;position:relative;display:flex;align-items:center;transition:color .2s;}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0%;height:2px;background:var(--volt);transition:width .3s ease;}
+.nav-links a:hover{color:var(--volt);}
+.nav-links a:hover::after{width:100%;}
+.nav-links a.active{color:var(--volt);}
+.nav-links a.active::after{width:100%;}
+.nav-contact-btn{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--white);background:transparent;border:1px solid rgba(254,255,254,.25);padding:8px 16px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.nav-contact-btn:hover{border-color:var(--volt);color:var(--volt);}
+.nav-try{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--black);background:var(--volt);border:none;padding:9px 20px;cursor:pointer;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0;}
+.nav-try:hover{opacity:.85;}
+
+.corn{position:fixed;width:30px;height:30px;pointer-events:none;z-index:1000;}
+.corn-tl{top:64px;left:0;border-right:1px solid rgba(228,255,26,.2);border-bottom:1px solid rgba(228,255,26,.2);}
+.corn-br{bottom:0;right:0;border-left:1px solid rgba(228,255,26,.2);border-top:1px solid rgba(228,255,26,.2);}
+
+.ticker{background:var(--crimson);padding:10px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-block;animation:tick 22s linear infinite;}
+.ticker-inner span{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--white);padding:0 36px;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+.page-hero{padding-top:56px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1.3fr .7fr;min-height:40vh;}
+.page-hero-img{position:relative;overflow:hidden;background:url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2000&auto=format&fit=crop') center 30%/cover no-repeat;filter:grayscale(1) contrast(1.15);border-right:1px solid var(--border);}
+.page-hero-overlay{position:absolute;inset:0;background:rgba(11,10,7,.65);}
+.page-hero-content{padding:48px 40px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;}
+.page-eyebrow{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--volt);margin-bottom:8px;}
+.page-title{font-size:clamp(40px,6vw,80px);font-weight:900;line-height:.85;letter-spacing:-.05em;}
+.page-title em{color:var(--crimson);font-style:normal;}
+.page-subtitle{font-size:13px;line-height:1.65;color:rgba(254,255,254,.5);max-width:300px;margin-top:8px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);}
+.volt-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--volt);margin-bottom:10px;}
+.body-text{font-size:13px;line-height:1.7;color:rgba(254,255,254,.55);}
+.sec-title-lg{font-size:clamp(36px,5vw,72px);font-weight:900;letter-spacing:-.05em;line-height:.88;}
+.red-bar{width:44px;height:4px;background:var(--crimson);margin:22px 0;}
+
+.about-grid{padding:80px 40px;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;}
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:36px;}
+.about-stat-row{display:flex;margin-top:40px;border-top:1px solid var(--border);padding-top:40px;}
+.about-stat{flex:1;padding-right:24px;border-right:1px solid var(--border);margin-right:24px;}
+.about-stat:last-child{border-right:none;margin-right:0;padding-right:0;}
+.about-stat-val{font-size:28px;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:6px;}
+.about-cta-strip{background:#0f0e0b;border-top:1px solid var(--border);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+
+.weight-section{padding:0 40px 80px;}
+.weight-bars{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);}
+.weight-row{display:grid;grid-template-columns:200px 1fr auto;align-items:center;gap:0;border-bottom:1px solid var(--border);}
+.weight-row:last-child{border-bottom:none;}
+.weight-label{padding:20px 24px;font-size:12px;font-weight:700;letter-spacing:-.01em;border-right:1px solid var(--border);}
+.weight-bar-wrap{padding:20px 24px;}
+.weight-bar-track{height:6px;background:rgba(254,255,254,.08);position:relative;}
+.weight-bar-fill{height:100%;background:var(--volt);transition:width 1s cubic-bezier(.16,1,.3,1);}
+.weight-pct{padding:20px 24px;font-family:var(--mono);font-size:11px;color:var(--volt);border-left:1px solid var(--border);min-width:56px;text-align:right;}
+
+footer{background:var(--forest);padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.foot-logo{font-weight:900;font-size:28px;letter-spacing:-.05em;line-height:1;}
+.foot-logo em{color:var(--volt);font-style:normal;}
+.foot-tagline{font-size:12px;line-height:1.6;color:rgba(254,255,254,.55);margin-top:12px;max-width:260px;}
+.foot-right{display:flex;flex-direction:column;gap:20px;align-items:flex-end;}
+.foot-nav{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;}
+.foot-nav a{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.4);text-decoration:none;transition:color .2s;}
+.foot-nav a:hover{color:var(--volt);}
+.foot-copy{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.25);}
+
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(11,10,7,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:#0f0e0b;border:1px solid var(--border);width:100%;max-width:780px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:28px 32px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:20px;}
+.modal-title{font-size:22px;font-weight:900;letter-spacing:-.04em;}
+.modal-close{background:none;border:1px solid rgba(254,255,254,.15);color:rgba(254,255,254,.5);width:32px;height:32px;cursor:pointer;font-size:16px;transition:all .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{border-color:var(--crimson);color:var(--white);}
+.modal-inner{display:grid;grid-template-columns:1.1fr 0.9fr;}
+.modal-body{padding:28px 32px;border-right:1px solid var(--border);}
+.modal-contact-info{padding:28px 28px;}
+.modal-contact-info h4{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px;color:var(--white);}
+.contact-info-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;}
+.contact-info-icon{width:32px;height:32px;background:rgba(228,255,26,.07);border:1px solid rgba(228,255,26,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.contact-info-label{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.35);margin-bottom:5px;}
+.contact-info-value{font-size:12px;color:rgba(254,255,254,.7);line-height:1.55;}
+.modal-note{background:rgba(228,255,26,.06);border:1px solid rgba(228,255,26,.15);padding:12px 16px;margin-bottom:24px;}
+.modal-note p{font-size:11px;line-height:1.6;color:rgba(254,255,254,.5);}
+.modal-note strong{color:var(--volt);font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.4);margin-bottom:8px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:#111109;border:1px solid rgba(254,255,254,.12);color:var(--white);font-family:var(--sans);font-size:13px;padding:11px 14px;outline:none;transition:border-color .2s;resize:vertical;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(228,255,26,.5);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(254,255,254,.2);}
+.form-group select option{background:#111109;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-submit{width:100%;padding:14px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--black);background:var(--volt);border:none;cursor:pointer;transition:opacity .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.form-submit:hover{opacity:.85;}
+.form-submit:disabled{opacity:.5;cursor:not-allowed;}
+.form-success{text-align:center;padding:40px 20px;display:none;flex-direction:column;align-items:center;gap:12px;}
+.form-success-icon{font-size:36px;color:var(--volt);}
+.form-success h3{font-size:18px;font-weight:900;letter-spacing:-.03em;}
+.form-success p{font-size:12px;color:rgba(254,255,254,.5);line-height:1.65;}
+
+@media(max-width:1024px){
+  .page-hero{grid-template-columns:1fr;}
+  .page-hero-img{height:30vh;border-right:none;border-bottom:1px solid var(--border);}
+  .about-grid{grid-template-columns:1fr;gap:40px;padding:40px 20px;}
+  .about-cols{grid-template-columns:1fr;}
+  nav{padding:0 16px;}
+  footer{grid-template-columns:1fr;}
+  .foot-right{align-items:flex-start;}
+  .nav-brand-label{display:none;}
+  .modal-inner{grid-template-columns:1fr;}
+  .modal-body{border-right:none;border-bottom:1px solid var(--border);}
+  .weight-section{padding:0 20px 40px;}
+  .weight-row{grid-template-columns:140px 1fr auto;}
+  .sec-header{padding:18px 20px;}
+  .about-cta-strip{padding:32px 20px;}
+}
+@media(max-width:768px){
+  .weight-row{grid-template-columns:1fr auto;}
+  .weight-bar-wrap{display:none;}
+  .form-row{grid-template-columns:1fr;}
+  .nav-links a{padding:0 10px;font-size:9px;}
+}
+@media(max-width:640px){
+  .nav-links a{padding:7px 7px;font-size:8px;}
+  footer{padding:32px 20px;}
+  .modal-body,.modal-contact-info{padding:20px;}
+  .modal-header{padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="corn corn-tl"></div>
+<div class="corn corn-br"></div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+    <a class="nav-logo" href="index.html">BOX<em>PREDICT</em></a>
+    <span class="nav-brand-label">BoxPredict</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="howitworks.html">How It Works</a></li>
+    <li><a href="developers.html">Developers</a></li>
+    <li><a href="tutorial.html">Tutorial</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+    <button class="nav-contact-btn" onclick="openModal()">Contact Us</button>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="nav-try">Try the App</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-img"><div class="page-hero-overlay"></div></div>
+  <div class="page-hero-content">
+    <div>
+      <div class="page-eyebrow">01 / About the Project</div>
+      <h1 class="page-title">About<br>Box<em>Predict</em></h1>
+      <p class="page-subtitle">A new way to navigate boxing — making fight prediction accessible, transparent and accurate.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>BoxPredict</span><span>//</span><span>About the Project</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+    <span>BoxPredict</span><span>//</span><span>About the Project</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="sec-header">
+    <span class="mono">About the Project</span>
+    <span class="mono" style="color:var(--volt);">BoxPredict</span>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h2 class="sec-title-lg">The Need<br>To Knows</h2>
+      <div class="red-bar"></div>
+    </div>
+    <div>
+      <div class="about-cols">
+        <div>
+          <div class="volt-label">01. Perfect Boxer</div>
+          <p class="body-text">We define a theoretical perfect boxer with maximum scores (10/10) across all 20 performance attributes in 5 categories. This upper-bound benchmark evaluates and ranks real fighters objectively.</p>
+        </div>
+        <div>
+          <div class="volt-label">02. Weighted Scoring</div>
+          <p class="body-text">Attributes are grouped into 5 categories — Performance Metrics (35%), Technical (22%), Tactical (16%), Anthropometric (15%) and Psychological (12%) — weighted by their proven impact on fight outcomes.</p>
+        </div>
+        <div>
+          <div class="volt-label">03. Score Calculation</div>
+          <p class="body-text">A fighter's overall score is computed as the weighted sum of their attribute ratings, producing a single comparable metric out of 10 that reflects their true competitive standing.</p>
+        </div>
+        <div>
+          <div class="volt-label">04. Prediction Engine</div>
+          <p class="body-text">Score differences between two fighters are fed through a sigmoid function to produce win probabilities. A base draw probability is factored in to account for closely matched fighters.</p>
+        </div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--volt);">1,200+</div>
+          <div class="mono">Fights Analyzed</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--crimson);">5</div>
+          <div class="mono">Attribute Categories</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val">20</div>
+          <div class="mono">Performance Attributes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="about-cta-strip">
+  <div>
+    <div class="volt-label" style="margin-bottom:6px;">Ready to make your prediction?</div>
+    <p class="body-text" style="max-width:440px;">Put our model to the test. Select two fighters, review the data and see who our AI picks to win.</p>
+  </div>
+  <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+</div>
+
+<footer>
+  <div>
+    <div class="foot-logo">BOX<em>PREDICT</em></div>
+    <p class="foot-tagline">The ultimate AI-powered boxing fight prediction platform.</p>
+  </div>
+  <div class="foot-right">
+    <nav class="foot-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="howitworks.html">How It Works</a><a href="developers.html">Developers</a><a href="tutorial.html">Tutorial</a><a href="#" onclick="openModal();return false;">Contact</a>
+    </nav>
+    <p class="foot-copy">BoxPredict — Capstone 2025–2026</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><div class="volt-label" style="margin-bottom:6px;">BoxPredict Team</div><div class="modal-title">Contact Us</div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-inner" id="contactFormWrap">
+      <div class="modal-body">
+        <div class="modal-note"><strong>How this works</strong><p>Fill out this form and your message will be sent directly to the BoxPredict team via email. We typically respond within 1–2 business days.</p></div>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="fName" placeholder="e.g. John" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="lName" placeholder="e.g. Smith" required></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="fEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Reason for Contact</label><select id="fReason"><option value="">Select a reason…</option><option>General Enquiry</option><option>Collaboration / Partnership</option><option>Bug Report</option><option>Data / Fighter Request</option><option>Media &amp; Press</option><option>Other</option></select></div>
+        <div class="form-group"><label>Message *</label><textarea id="fMessage" rows="5" placeholder="Tell us what's on your mind…" required></textarea></div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit()">Send Message →</button>
+      </div>
+      <div class="modal-contact-info">
+        <h4>Our Details</h4>
+        <div class="contact-info-item"><div class="contact-info-icon">📍</div><div><div class="contact-info-label">Location</div><div class="contact-info-value">Kingston, Jamaica</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">✉️</div><div><div class="contact-info-label">Email</div><div class="contact-info-value">capstoneboxing@gmail.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">🕒</div><div><div class="contact-info-label">Response Hours</div><div class="contact-info-value">Mon – Fri: 9 AM – 6 PM<br>Weekends: Limited</div></div></div>
+        <div style="border-top:1px solid var(--border);margin:20px 0;"></div>
+        <div class="volt-label" style="margin-bottom:10px;">Response Time</div>
+        <p style="font-size:11px;line-height:1.6;color:rgba(254,255,254,.4);">We aim to reply within 1–2 business days. For urgent matters, email capstoneboxing@gmail.com directly.</p>
+      </div>
+    </div>
+    <div class="form-success" id="successMsg"><div class="form-success-icon">✓</div><h3>Message Sent!</h3><p>Thanks for reaching out. We'll be in touch soon.</p><button class="try-app" style="margin-top:12px;" onclick="closeModal()">Close</button></div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('contactModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('contactModal').classList.remove('open');document.body.style.overflow='';setTimeout(()=>{const wrap=document.getElementById('contactFormWrap');wrap.style.display='grid';document.getElementById('successMsg').style.display='none';['fName','fEmail','fMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('lName').value='';document.getElementById('fReason').value='';const btn=document.getElementById('submitBtn');btn.disabled=false;btn.textContent='Send Message →';},300);}
+function handleOverlayClick(e){if(e.target===document.getElementById('contactModal'))closeModal();}
+function handleSubmit(){const firstName=document.getElementById('fName').value.trim();const lastName=document.getElementById('lName').value.trim();const email=document.getElementById('fEmail').value.trim();const reason=document.getElementById('fReason').value;const message=document.getElementById('fMessage').value.trim();if(!firstName||!lastName||!email||!message){alert('Please fill in all required fields (marked with *).'); return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Sending…';const subject=encodeURIComponent('BoxPredict Enquiry'+(reason?' — '+reason:''));const body=encodeURIComponent('Name: '+firstName+' '+lastName+'\nEmail: '+email+'\nReason: '+(reason||'Not specified')+'\n\nMessage:\n'+message);window.location.href='mailto:boxpredict.team@gmail.com?subject='+subject+'&body='+body;setTimeout(()=>{document.getElementById('contactFormWrap').style.display='none';const s=document.getElementById('successMsg');s.style.display='flex';},800);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>

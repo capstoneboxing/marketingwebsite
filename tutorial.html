@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPredict — Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--crimson:#B10F2E;--black:#0B0A07;--white:#FEFFFE;--forest:#14591D;--volt:#E4FF1A;--border:rgba(254,255,254,0.12);--mono:'Space Mono',monospace;--sans:'Inter',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--sans);overflow-x:hidden;}
+.mono{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.5);}
+.try-app{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--black);background:var(--volt);padding:10px 20px;text-decoration:none;border:none;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.try-app:hover{opacity:.85;}
+.try-app::after{content:'→';font-size:12px;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(11,10,7,.96);backdrop-filter:blur(16px);border-bottom:2px solid var(--crimson);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;gap:12px;}
+.nav-logo{font-weight:900;font-size:18px;letter-spacing:-.04em;color:var(--white);text-decoration:none;display:flex;align-items:center;flex-shrink:0;}
+.nav-logo em{color:var(--crimson);font-style:normal;margin-left:2px;}
+@keyframes brand-glow{0%,100%{text-shadow:0 0 8px rgba(228,255,26,.9),0 0 20px rgba(228,255,26,.45);}50%{text-shadow:0 0 14px rgba(228,255,26,1),0 0 32px rgba(228,255,26,.65);}}
+.nav-brand-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.18em;color:var(--volt);flex-shrink:0;white-space:nowrap;border-left:1px solid rgba(254,255,254,.1);padding-left:16px;margin-left:4px;animation:brand-glow 2.8s ease-in-out infinite;}
+.nav-links{display:flex;list-style:none;height:100%;align-items:stretch;flex-wrap:nowrap;}
+.nav-links li{display:flex;align-items:stretch;}
+.nav-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.45);text-decoration:none;padding:0 14px;position:relative;display:flex;align-items:center;transition:color .2s;}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0%;height:2px;background:var(--volt);transition:width .3s ease;}
+.nav-links a:hover{color:var(--volt);}
+.nav-links a:hover::after{width:100%;}
+.nav-links a.active{color:var(--volt);}
+.nav-links a.active::after{width:100%;}
+.nav-contact-btn{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--white);background:transparent;border:1px solid rgba(254,255,254,.25);padding:8px 16px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.nav-contact-btn:hover{border-color:var(--volt);color:var(--volt);}
+.nav-try{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--black);background:var(--volt);border:none;padding:9px 20px;cursor:pointer;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0;}
+.nav-try:hover{opacity:.85;}
+
+.corn{position:fixed;width:30px;height:30px;pointer-events:none;z-index:1000;}
+.corn-tl{top:64px;left:0;border-right:1px solid rgba(228,255,26,.2);border-bottom:1px solid rgba(228,255,26,.2);}
+.corn-br{bottom:0;right:0;border-left:1px solid rgba(228,255,26,.2);border-top:1px solid rgba(228,255,26,.2);}
+
+.ticker{background:var(--crimson);padding:10px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-block;animation:tick 22s linear infinite;}
+.ticker-inner span{font-family:var(--mono);font-size:10px;letter-spacing:.15em;color:var(--white);padding:0 36px;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+.page-hero{padding-top:56px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1.3fr .7fr;min-height:40vh;}
+.page-hero-img{position:relative;overflow:hidden;background:url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?q=80&w=2000&auto=format&fit=crop') center 70%/cover no-repeat;filter:grayscale(1) contrast(1.15);border-right:1px solid var(--border);}
+.page-hero-overlay{position:absolute;inset:0;background:rgba(11,10,7,.6);}
+.page-hero-content{padding:48px 40px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;}
+.page-eyebrow{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--volt);margin-bottom:8px;}
+.page-title{font-size:clamp(36px,5vw,72px);font-weight:900;line-height:.85;letter-spacing:-.05em;}
+.page-title em{color:var(--crimson);font-style:normal;}
+.page-subtitle{font-size:13px;line-height:1.65;color:rgba(254,255,254,.5);max-width:300px;margin-top:8px;}
+
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--border);}
+.volt-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--volt);margin-bottom:10px;}
+.body-text{font-size:13px;line-height:1.7;color:rgba(254,255,254,.55);}
+
+.tut-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);padding:40px;gap:24px;}
+
+.tut-card{background:var(--black);border:1px solid var(--border);display:flex;flex-direction:column;position:relative;overflow:hidden;}
+
+.tut-badge{position:absolute;top:16px;left:16px;z-index:2;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;padding:5px 12px;}
+.tut-badge-user{color:var(--black);background:var(--volt);}
+.tut-badge-admin{color:var(--white);background:var(--crimson);}
+
+.tut-video-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;background:#0e0d0a;position:relative;}
+.tut-video-wrap video{width:100%;height:100%;object-fit:cover;display:block;}
+
+.tut-divider{width:100%;height:1px;background:var(--border);}
+
+.tut-info{padding:24px 28px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.tut-type-tag{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.tut-title{font-size:18px;font-weight:900;letter-spacing:-.03em;line-height:1.1;}
+.tut-desc{font-size:12px;line-height:1.7;color:rgba(254,255,254,.5);margin-top:4px;}
+
+.tut-features{margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
+.tut-features-label{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.3);margin-bottom:10px;}
+.tut-feature-list{display:flex;flex-direction:column;gap:6px;}
+.tut-feature-item{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(254,255,254,.55);}
+.tut-feature-dot{width:4px;height:4px;border-radius:50%;background:var(--volt);flex-shrink:0;}
+.tut-feature-dot-red{background:var(--crimson);}
+
+.tut-meta{display:flex;gap:24px;padding-top:16px;margin-top:auto;border-top:1px solid var(--border);}
+.tut-meta-item{display:flex;flex-direction:column;gap:4px;}
+.dev-sv{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--volt);}
+.dev-sv-red{color:var(--crimson);}
+
+.tut-cta{padding:0 28px 28px;}
+
+.admin-notice{margin:40px 40px 0;background:rgba(177,15,46,.08);border:1px solid rgba(177,15,46,.25);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;}
+.admin-notice-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.admin-notice-text strong{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--crimson);display:block;margin-bottom:6px;}
+.admin-notice-text p{font-size:12px;line-height:1.6;color:rgba(254,255,254,.5);}
+
+.about-cta-strip{background:#0f0e0b;border-top:1px solid var(--border);margin-top:40px;padding:32px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+
+footer{background:var(--forest);padding:48px 40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.foot-logo{font-weight:900;font-size:28px;letter-spacing:-.05em;line-height:1;}
+.foot-logo em{color:var(--volt);font-style:normal;}
+.foot-tagline{font-size:12px;line-height:1.6;color:rgba(254,255,254,.55);margin-top:12px;max-width:260px;}
+.foot-right{display:flex;flex-direction:column;gap:20px;align-items:flex-end;}
+.foot-nav{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;}
+.foot-nav a{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.4);text-decoration:none;transition:color .2s;}
+.foot-nav a:hover{color:var(--volt);}
+.foot-copy{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:rgba(254,255,254,.25);}
+
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(11,10,7,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:#0f0e0b;border:1px solid var(--border);width:100%;max-width:780px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:28px 32px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:20px;}
+.modal-title{font-size:22px;font-weight:900;letter-spacing:-.04em;}
+.modal-close{background:none;border:1px solid rgba(254,255,254,.15);color:rgba(254,255,254,.5);width:32px;height:32px;cursor:pointer;font-size:16px;transition:all .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{border-color:var(--crimson);color:var(--white);}
+.modal-inner{display:grid;grid-template-columns:1.1fr 0.9fr;}
+.modal-body{padding:28px 32px;border-right:1px solid var(--border);}
+.modal-contact-info{padding:28px 28px;}
+.modal-contact-info h4{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px;color:var(--white);}
+.contact-info-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;}
+.contact-info-icon{width:32px;height:32px;background:rgba(228,255,26,.07);border:1px solid rgba(228,255,26,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.contact-info-label{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.35);margin-bottom:5px;}
+.contact-info-value{font-size:12px;color:rgba(254,255,254,.7);line-height:1.55;}
+.modal-note{background:rgba(228,255,26,.06);border:1px solid rgba(228,255,26,.15);padding:12px 16px;margin-bottom:24px;}
+.modal-note p{font-size:11px;line-height:1.6;color:rgba(254,255,254,.5);}
+.modal-note strong{color:var(--volt);font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:4px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(254,255,254,.4);margin-bottom:8px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:#111109;border:1px solid rgba(254,255,254,.12);color:var(--white);font-family:var(--sans);font-size:13px;padding:11px 14px;outline:none;transition:border-color .2s;resize:vertical;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(228,255,26,.5);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(254,255,254,.2);}
+.form-group select option{background:#111109;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-submit{width:100%;padding:14px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--black);background:var(--volt);border:none;cursor:pointer;transition:opacity .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.form-submit:hover{opacity:.85;}
+.form-submit:disabled{opacity:.5;cursor:not-allowed;}
+.form-success{text-align:center;padding:40px 20px;display:none;flex-direction:column;align-items:center;gap:12px;}
+.form-success-icon{font-size:36px;color:var(--volt);}
+.form-success h3{font-size:18px;font-weight:900;letter-spacing:-.03em;}
+.form-success p{font-size:12px;color:rgba(254,255,254,.5);line-height:1.65;}
+
+@media(max-width:1024px){
+  .page-hero{grid-template-columns:1fr;}
+  .page-hero-img{height:30vh;border-right:none;border-bottom:1px solid var(--border);}
+  nav{padding:0 16px;}
+  footer{grid-template-columns:1fr;}
+  .foot-right{align-items:flex-start;}
+  .nav-brand-label{display:none;}
+  .modal-inner{grid-template-columns:1fr;}
+  .modal-body{border-right:none;border-bottom:1px solid var(--border);}
+  .tut-grid{grid-template-columns:1fr;padding:20px;}
+  .about-cta-strip{padding:32px 20px;}
+  .admin-notice{margin:20px 20px 0;}
+  .sec-header{padding:18px 20px;}
+}
+@media(max-width:768px){
+  .form-row{grid-template-columns:1fr;}
+  .nav-links a{padding:0 10px;font-size:9px;}
+}
+@media(max-width:640px){
+  .nav-links a{padding:7px 7px;font-size:8px;}
+  footer{padding:32px 20px;}
+  .modal-body,.modal-contact-info{padding:20px;}
+  .modal-header{padding:20px;}
+}
+</style>
+</head>
+<body>
+<div class="corn corn-tl"></div>
+<div class="corn corn-br"></div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+    <a class="nav-logo" href="index.html">BOX<em>PREDICT</em></a>
+    <span class="nav-brand-label">BoxPredict</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="howitworks.html">How It Works</a></li>
+    <li><a href="developers.html">Developers</a></li>
+    <li><a href="tutorial.html" class="active">Tutorial</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+    <button class="nav-contact-btn" onclick="openModal()">Contact Us</button>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="nav-try">Try the App</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-img"><div class="page-hero-overlay"></div></div>
+  <div class="page-hero-content">
+    <div>
+      <div class="page-eyebrow">04 / Platform Tutorial</div>
+      <h1 class="page-title">Getting<br><em>Started</em></h1>
+      <p class="page-subtitle">Two guided walkthroughs — one for regular users, one for admins. Get up to speed in minutes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>BoxPredict</span><span>//</span><span>Platform Tutorial</span><span>//</span><span>User &amp; Admin Walkthroughs</span><span>//</span><span>Get Started in Minutes</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+    <span>BoxPredict</span><span>//</span><span>Platform Tutorial</span><span>//</span><span>User &amp; Admin Walkthroughs</span><span>//</span><span>Get Started in Minutes</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+  </div>
+</div>
+
+<section id="tutorial">
+  <div class="sec-header">
+    <span class="mono">Platform Tutorial</span>
+    <span class="mono" style="color:var(--volt);">BoxPredict — Two Guides</span>
+  </div>
+
+  <div class="admin-notice">
+    <div class="admin-notice-icon">🔒</div>
+    <div class="admin-notice-text">
+      <strong>Admin-Only Access Notice</strong>
+      <p>The Admin Tutorial covers features only available to verified administrators: managing the boxer database, reviewing all stored predictions, updating fight results and analysing system-wide prediction accuracy. These features are not visible to standard users.</p>
+    </div>
+  </div>
+
+  <div class="tut-grid">
+
+    <div class="tut-card">
+      <span class="tut-badge tut-badge-user">Regular User</span>
+      <div class="tut-video-wrap">
+        <video controls muted loop>
+          <source src="video.mp4" type="video/mp4">Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="tut-info">
+        <div class="tut-type-tag">
+          <div style="width:8px;height:8px;background:var(--volt);flex-shrink:0;"></div>
+          <span class="mono" style="color:var(--volt);">Tutorial 01 — Standard Access</span>
+        </div>
+        <div class="tut-title">How to Use BoxPredict</div>
+        <p class="tut-desc">A complete walkthrough for regular users — from navigating the platform to selecting fighters, reading the scoring breakdown and interpreting your AI-generated fight prediction.</p>
+        <div class="tut-features">
+          <div class="tut-features-label">What you'll learn</div>
+          <div class="tut-feature-list">
+            <div class="tut-feature-item"><div class="tut-feature-dot"></div>Selecting two fighters from the database</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot"></div>Reading the 5-category attribute breakdown</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot"></div>Adjusting criteria weights for your prediction</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot"></div>Interpreting win probability percentages</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot"></div>Understanding the prediction explanation</div>
+          </div>
+        </div>
+        <div class="tut-meta">
+          <div class="tut-meta-item"><div class="mono">Duration</div><div class="dev-sv">5 Min</div></div>
+          <div class="tut-meta-item"><div class="mono">Access Level</div><div class="dev-sv">All Users</div></div>
+          <div class="tut-meta-item"><div class="mono">Difficulty</div><div class="dev-sv">Beginner</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tut-card" style="border-color:rgba(177,15,46,.3);">
+      <span class="tut-badge tut-badge-admin">Admin Only</span>
+      <div class="tut-video-wrap" style="background:#110508;">
+        <video controls muted loop>
+          <source src="video-admin.mp4" type="video/mp4">Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="tut-info">
+        <div class="tut-type-tag">
+          <div style="width:8px;height:8px;background:var(--crimson);flex-shrink:0;"></div>
+          <span class="mono" style="color:var(--crimson);">Tutorial 02 — Admin Access</span>
+        </div>
+        <div class="tut-title">Admin Panel Walkthrough</div>
+        <p class="tut-desc">A dedicated guide for administrators covering the full suite of admin-only features — database management, prediction history, result logging and accuracy analysis across all stored predictions.</p>
+        <div class="tut-features">
+          <div class="tut-features-label">Admin-only features covered</div>
+          <div class="tut-feature-list">
+            <div class="tut-feature-item"><div class="tut-feature-dot tut-feature-dot-red"></div>Managing the boxer database (add, edit, remove)</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot tut-feature-dot-red"></div>Viewing all stored predictions in the history log</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot tut-feature-dot-red"></div>Logging actual fight results against predictions</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot tut-feature-dot-red"></div>Reviewing correct, incorrect &amp; draw accuracy</div>
+            <div class="tut-feature-item"><div class="tut-feature-dot tut-feature-dot-red"></div>Visualising confidence levels across all predictions</div>
+          </div>
+        </div>
+        <div class="tut-meta">
+          <div class="tut-meta-item"><div class="mono">Duration</div><div class="dev-sv dev-sv-red">8 Min</div></div>
+          <div class="tut-meta-item"><div class="mono">Access Level</div><div class="dev-sv dev-sv-red">Admin Only</div></div>
+          <div class="tut-meta-item"><div class="mono">Difficulty</div><div class="dev-sv dev-sv-red">Intermediate</div></div>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+  <div class="about-cta-strip">
+    <div>
+      <div class="volt-label" style="margin-bottom:6px;">Ready to make your first prediction?</div>
+      <p class="body-text" style="max-width:440px;">Launch the app, pick any two fighters and see who our AI picks to win — it takes under a minute.</p>
+    </div>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-logo">BOX<em>PREDICT</em></div>
+    <p class="foot-tagline">The ultimate AI-powered boxing fight prediction platform.</p>
+  </div>
+  <div class="foot-right">
+    <nav class="foot-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="howitworks.html">How It Works</a><a href="developers.html">Developers</a><a href="tutorial.html">Tutorial</a><a href="#" onclick="openModal();return false;">Contact</a>
+    </nav>
+    <p class="foot-copy">BoxPredict — Capstone 2025–2026</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><div class="volt-label" style="margin-bottom:6px;">BoxPredict Team</div><div class="modal-title">Contact Us</div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-inner" id="contactFormWrap">
+      <div class="modal-body">
+        <div class="modal-note"><strong>How this works</strong><p>Fill out this form and your message will be sent directly to the BoxPredict team via email.</p></div>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="fName" placeholder="e.g. John" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="lName" placeholder="e.g. Smith" required></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="fEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Reason for Contact</label><select id="fReason"><option value="">Select a reason…</option><option>General Enquiry</option><option>Collaboration / Partnership</option><option>Bug Report</option><option>Data / Fighter Request</option><option>Media &amp; Press</option><option>Other</option></select></div>
+        <div class="form-group"><label>Message *</label><textarea id="fMessage" rows="5" placeholder="Tell us what's on your mind…" required></textarea></div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit()">Send Message →</button>
+      </div>
+      <div class="modal-contact-info">
+        <h4>Our Details</h4>
+        <div class="contact-info-item"><div class="contact-info-icon">📍</div><div><div class="contact-info-label">Location</div><div class="contact-info-value">Kingston, Jamaica</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">✉️</div><div><div class="contact-info-label">Email</div><div class="contact-info-value">capstoneboxing@gmail.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">🕒</div><div><div class="contact-info-label">Response Hours</div><div class="contact-info-value">Mon – Fri: 9 AM – 6 PM<br>Weekends: Limited</div></div></div>
+        <div style="border-top:1px solid var(--border);margin:20px 0;"></div>
+        <div class="volt-label" style="margin-bottom:10px;">Response Time</div>
+        <p style="font-size:11px;line-height:1.6;color:rgba(254,255,254,.4);">We aim to reply within 1–2 business days.</p>
+      </div>
+    </div>
+    <div class="form-success" id="successMsg"><div class="form-success-icon">✓</div><h3>Message Sent!</h3><p>Thanks for reaching out. We'll be in touch soon.</p><button class="try-app" style="margin-top:12px;" onclick="closeModal()">Close</button></div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('contactModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('contactModal').classList.remove('open');document.body.style.overflow='';setTimeout(()=>{const wrap=document.getElementById('contactFormWrap');wrap.style.display='grid';document.getElementById('successMsg').style.display='none';['fName','fEmail','fMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('lName').value='';document.getElementById('fReason').value='';const btn=document.getElementById('submitBtn');btn.disabled=false;btn.textContent='Send Message →';},300);}
+function handleOverlayClick(e){if(e.target===document.getElementById('contactModal'))closeModal();}
+function handleSubmit(){const firstName=document.getElementById('fName').value.trim();const lastName=document.getElementById('lName').value.trim();const email=document.getElementById('fEmail').value.trim();const reason=document.getElementById('fReason').value;const message=document.getElementById('fMessage').value.trim();if(!firstName||!lastName||!email||!message){alert('Please fill in all required fields (marked with *).'); return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Sending…';const subject=encodeURIComponent('BoxPredict Enquiry'+(reason?' — '+reason:''));const body=encodeURIComponent('Name: '+firstName+' '+lastName+'\nEmail: '+email+'\nReason: '+(reason||'Not specified')+'\n\nMessage:\n'+message);window.location.href='mailto:boxpredict.team@gmail.com?subject='+subject+'&body='+body;setTimeout(()=>{document.getElementById('contactFormWrap').style.display='none';const s=document.getElementById('successMsg');s.style.display='flex';},800);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>––
