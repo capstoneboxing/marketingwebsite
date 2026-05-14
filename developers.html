@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPredict — Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="corn corn-tl"></div>
+<div class="corn corn-br"></div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+    <a class="nav-logo" href="index.html">BOX<em>PREDICT</em></a>
+    <span class="nav-brand-label">BoxPredict</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="howitworks.html">How It Works</a></li>
+    <li><a href="developers.html" class="active">Developers</a></li>
+    <li><a href="tutorial.html">Tutorial</a></li>
+    
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+    <button class="nav-contact-btn" onclick="openModal()">Contact Us</button>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="nav-try">Try the App</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-img" style="background-position:center 40%"><div class="page-hero-overlay"></div></div>
+  <div class="page-hero-content">
+    <div>
+      <div class="page-eyebrow">03 / System Architects</div>
+      <h1 class="page-title">Core<br><em>Contributors</em></h1>
+      <p class="page-subtitle">Meet the team behind BoxPredict.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>BoxPredict</span><span>//</span><span>Meet the Team</span><span>//</span><span>Built with Passion for Boxing </span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+    <span>BoxPredict</span><span>//</span><span>Meet the Team</span><span>//</span><span>Built with Passion for Boxing </span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+  </div>
+</div>
+
+<section id="developers">
+  <div class="sec-header">
+    <span class="mono">System Architects</span>
+    <span class="mono" style="color:var(--volt);">Core Contributors</span>
+  </div>
+  <div class="dev-grid">
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Tywaine.jpg" alt="Tywaine Peters">
+        <div class="dev-photo-badge"><span class="mono" style="color:var(--volt);">The Architect</span></div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">AI Developer</div>
+        <div class="dev-name">Tywaine Peters</div>
+        <p class="dev-bio">Tywaine leads the intelligence behind BoxPredict. He designed the prediction model, built the weighted scoring system and engineered the engine that powers every fight outcome forecast on the platform.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">AI Data</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Vanessa.jpg" alt="Vanessa Andrews">
+        <div class="dev-photo-badge"><span class="mono" style="color:var(--volt);">The Visuals</span></div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Front-End Developer</div>
+        <div class="dev-name">Vanessa Andrews</div>
+        <p class="dev-bio">Vanessa is responsible for everything you see on BoxPredict. She crafted the user interface, built interactive fighter comparison views and ensured the platform is responsive and intuitive across all devices — turning raw data into a clean, engaging experience.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">UI Design</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Maurice.png" alt="Maurice Wright">
+        <div class="dev-photo-badge"><span class="mono" style="color:var(--volt);">The Keeper</span></div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Documenter</div>
+        <div class="dev-name">Maurice Wright</div>
+        <p class="dev-bio">Maurice is the voice and memory of the team. He authored documentation, maintained the project running and ensured every design decision, algorithm and system change was recorded clearly for both the team and end users.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">Writing</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dev-card">
+      <div class="dev-photo-wrap">
+        <img src="Karnardia.png" alt="Karnardia Simpson">
+        <div class="dev-photo-badge"><span class="mono" style="color:var(--volt);">The Websmith</span></div>
+      </div>
+      <div class="dev-info">
+        <div class="volt-label">Website &amp; Database</div>
+        <div class="dev-name">Karnardia Simpson</div>
+        <p class="dev-bio">Karnardia built and maintains the backbone of BoxPredict. She architected the database schema, managed fighter data pipelines and developed this website for engagement and marketing.</p>
+        <div class="dev-stats">
+          <div><div class="mono" style="margin-bottom:4px;">Major</div><div class="dev-sv">Computer Science</div></div>
+          <div><div class="mono" style="margin-bottom:4px;">Focus</div><div class="dev-sv">Web &amp; DB</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact-strip">
+    <div class="contact-strip-text">
+      <h3>Get In Touch</h3>
+      <p>Have questions about BoxPredict, want to collaborate, or just love boxing as much as we do? We'd love to hear from you. Fill out the form and we'll get back to you.</p>
+    </div>
+    <button class="contact-btn-main" onclick="openModal()">Contact Us</button>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-logo">BOX<em>PREDICT</em></div>
+    <p class="foot-tagline">The ultimate AI-powered boxing fight prediction platform.</p>
+  </div>
+  <div class="foot-right">
+    <nav class="foot-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="howitworks.html">How It Works</a><a href="developers.html">Developers</a><a href="tutorial.html">Tutorial</a><a href="#" onclick="openModal();return false;">Contact</a>
+    </nav>
+    <p class="foot-copy">BoxPredict — Capstone 2025–2026</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><div class="volt-label" style="margin-bottom:6px;">BoxPredict Team</div><div class="modal-title">Contact Us</div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-inner" id="contactFormWrap">
+      <div class="modal-body">
+        <div class="modal-note"><strong>How this works</strong><p>Fill out this form and your message will be sent directly to the BoxPredict team via email.</p></div>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="fName" placeholder="e.g. John" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="lName" placeholder="e.g. Smith" required></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="fEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Reason for Contact</label><select id="fReason"><option value="">Select a reason…</option><option>General Enquiry</option><option>Collaboration / Partnership</option><option>Bug Report</option><option>Data / Fighter Request</option><option>Media &amp; Press</option><option>Other</option></select></div>
+        <div class="form-group"><label>Message *</label><textarea id="fMessage" rows="5" placeholder="Tell us what's on your mind…" required></textarea></div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit()">Send Message →</button>
+      </div>
+      <div class="modal-contact-info">
+        <h4>Our Details</h4>
+        <div class="contact-info-item"><div class="contact-info-icon">📍</div><div><div class="contact-info-label">Location</div><div class="contact-info-value">Kingston, Jamaica</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">✉️</div><div><div class="contact-info-label">Email</div><div class="contact-info-value">capstoneboxing@gmail.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">🕒</div><div><div class="contact-info-label">Response Hours</div><div class="contact-info-value">Mon – Fri: 9 AM – 6 PM<br>Weekends: Limited</div></div></div>
+        <div style="border-top:1px solid var(--border);margin:20px 0;"></div>
+        <div class="volt-label" style="margin-bottom:10px;">Response Time</div>
+        <p style="font-size:11px;line-height:1.6;color:rgba(254,255,254,.4);">We aim to reply within 1–2 business days.</p>
+      </div>
+    </div>
+    <div class="form-success" id="successMsg"><div class="form-success-icon">✓</div><h3>Message Sent!</h3><p>Thanks for reaching out. We'll be in touch soon.</p><button class="try-app" style="margin-top:12px;" onclick="closeModal()">Close</button></div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('contactModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('contactModal').classList.remove('open');document.body.style.overflow='';setTimeout(()=>{const wrap=document.getElementById('contactFormWrap');wrap.style.display='grid';document.getElementById('successMsg').style.display='none';['fName','fEmail','fMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('lName').value='';document.getElementById('fReason').value='';const btn=document.getElementById('submitBtn');btn.disabled=false;btn.textContent='Send Message →';},300);}
+function handleOverlayClick(e){if(e.target===document.getElementById('contactModal'))closeModal();}
+function handleSubmit(){const firstName=document.getElementById('fName').value.trim();const lastName=document.getElementById('lName').value.trim();const email=document.getElementById('fEmail').value.trim();const reason=document.getElementById('fReason').value;const message=document.getElementById('fMessage').value.trim();if(!firstName||!lastName||!email||!message){alert('Please fill in all required fields (marked with *).'); return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Sending…';const subject=encodeURIComponent('BoxPredict Enquiry'+(reason?' — '+reason:''));const body=encodeURIComponent('Name: '+firstName+' '+lastName+'\nEmail: '+email+'\nReason: '+(reason||'Not specified')+'\n\nMessage:\n'+message);window.location.href='mailto:boxpredict.team@gmail.com?subject='+subject+'&body='+body;setTimeout(()=>{document.getElementById('contactFormWrap').style.display='none';const s=document.getElementById('successMsg');s.style.display='flex';},800);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>

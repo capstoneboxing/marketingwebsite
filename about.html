@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoxPredict — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="corn corn-tl"></div>
+<div class="corn corn-br"></div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
+    <a class="nav-logo" href="index.html">BOX<em>PREDICT</em></a>
+    <span class="nav-brand-label">BoxPredict</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="howitworks.html">How It Works</a></li>
+    <li><a href="developers.html">Developers</a></li>
+    <li><a href="tutorial.html">Tutorial</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
+    <button class="nav-contact-btn" onclick="openModal()">Contact Us</button>
+    <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="nav-try">Try the App</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-img" style="background-position:center 30%"><div class="page-hero-overlay"></div></div>
+  <div class="page-hero-content">
+    <div>
+      <div class="page-eyebrow">01 / About the Project</div>
+      <h1 class="page-title">About<br>Box<em>Predict</em></h1>
+      <p class="page-subtitle">A new way to navigate boxing — making fight prediction accessible, transparent and accurate.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>BoxPredict</span><span>//</span><span>About the Project</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+    <span>BoxPredict</span><span>//</span><span>About the Project</span><span>//</span><span>AI-Powered Boxing Fight Predictions</span><span>//</span><span>Capstone 2025–2026</span><span>//</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="sec-header">
+    <span class="mono">About the Project</span>
+    <span class="mono" style="color:var(--volt);">BoxPredict</span>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h2 class="sec-title-lg">The Need<br>To Knows</h2>
+      <div class="red-bar"></div>
+    </div>
+    <div>
+      <div class="about-cols">
+        <div>
+          <div class="volt-label">01. Perfect Boxer</div>
+          <p class="body-text">We define a theoretical perfect boxer with maximum scores (10/10) across all 20 performance attributes in 5 categories. This upper-bound benchmark evaluates and ranks real fighters objectively.</p>
+        </div>
+        <div>
+          <div class="volt-label">02. Weighted Scoring</div>
+          <p class="body-text">Attributes are grouped into 5 categories — Performance Metrics (35%), Technical (22%), Tactical (16%), Anthropometric (15%) and Psychological (12%) — weighted by their proven impact on fight outcomes.</p>
+        </div>
+        <div>
+          <div class="volt-label">03. Score Calculation</div>
+          <p class="body-text">A fighter's overall score is computed as the weighted sum of their attribute ratings, producing a single comparable metric out of 10 that reflects their true competitive standing.</p>
+        </div>
+        <div>
+          <div class="volt-label">04. Prediction Engine</div>
+          <p class="body-text">Score differences between two fighters are fed through a sigmoid function to produce win probabilities. A base draw probability is factored in to account for closely matched fighters.</p>
+        </div>
+      </div>
+      <div class="about-stat-row">
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--volt);">1,200+</div>
+          <div class="mono">Fights Analyzed</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val" style="color:var(--crimson);">5</div>
+          <div class="mono">Attribute Categories</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-val">20</div>
+          <div class="mono">Performance Attributes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="about-cta-strip">
+  <div>
+    <div class="volt-label" style="margin-bottom:6px;">Ready to make your prediction?</div>
+    <p class="body-text" style="max-width:440px;">Put our model to the test. Select two fighters, review the data and see who our AI picks to win.</p>
+  </div>
+  <a href="https://v0-boxing-ai.vercel.app" target="_blank" rel="noopener" class="try-app">Try the App</a>
+</div>
+
+<footer>
+  <div>
+    <div class="foot-logo">BOX<em>PREDICT</em></div>
+    <p class="foot-tagline">The ultimate AI-powered boxing fight prediction platform.</p>
+  </div>
+  <div class="foot-right">
+    <nav class="foot-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="howitworks.html">How It Works</a><a href="developers.html">Developers</a><a href="tutorial.html">Tutorial</a><a href="#" onclick="openModal();return false;">Contact</a>
+    </nav>
+    <p class="foot-copy">BoxPredict — Capstone 2025–2026</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="contactModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><div class="volt-label" style="margin-bottom:6px;">BoxPredict Team</div><div class="modal-title">Contact Us</div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-inner" id="contactFormWrap">
+      <div class="modal-body">
+        <div class="modal-note"><strong>How this works</strong><p>Fill out this form and your message will be sent directly to the BoxPredict team via email. We typically respond within 1–2 business days.</p></div>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="fName" placeholder="e.g. John" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="lName" placeholder="e.g. Smith" required></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="fEmail" placeholder="you@example.com" required></div>
+        <div class="form-group"><label>Reason for Contact</label><select id="fReason"><option value="">Select a reason…</option><option>General Enquiry</option><option>Collaboration / Partnership</option><option>Bug Report</option><option>Data / Fighter Request</option><option>Media &amp; Press</option><option>Other</option></select></div>
+        <div class="form-group"><label>Message *</label><textarea id="fMessage" rows="5" placeholder="Tell us what's on your mind…" required></textarea></div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit()">Send Message →</button>
+      </div>
+      <div class="modal-contact-info">
+        <h4>Our Details</h4>
+        <div class="contact-info-item"><div class="contact-info-icon">📍</div><div><div class="contact-info-label">Location</div><div class="contact-info-value">Kingston, Jamaica</div></div></div>
+        <div class="contact-info-item"><div class="contact-info-icon">✉️</div><div><div class="contact-info-label">Email</div><div class="contact-info-value">capstoneboxing@gmail.com</div></div></div>
+        <div style="border-top:1px solid var(--border);margin:20px 0;"></div>
+    </div>
+    <div class="form-success" id="successMsg"><div class="form-success-icon">✓</div><h3>Message Sent!</h3><p>Thanks for reaching out. We'll be in touch soon.</p><button class="try-app" style="margin-top:12px;" onclick="closeModal()">Close</button></div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('contactModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('contactModal').classList.remove('open');document.body.style.overflow='';setTimeout(()=>{const wrap=document.getElementById('contactFormWrap');wrap.style.display='grid';document.getElementById('successMsg').style.display='none';['fName','fEmail','fMessage'].forEach(id=>document.getElementById(id).value='');document.getElementById('lName').value='';document.getElementById('fReason').value='';const btn=document.getElementById('submitBtn');btn.disabled=false;btn.textContent='Send Message →';},300);}
+function handleOverlayClick(e){if(e.target===document.getElementById('contactModal'))closeModal();}
+function handleSubmit(){const firstName=document.getElementById('fName').value.trim();const lastName=document.getElementById('lName').value.trim();const email=document.getElementById('fEmail').value.trim();const reason=document.getElementById('fReason').value;const message=document.getElementById('fMessage').value.trim();if(!firstName||!lastName||!email||!message){alert('Please fill in all required fields (marked with *).'); return;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Sending…';const subject=encodeURIComponent('BoxPredict Enquiry'+(reason?' — '+reason:''));const body=encodeURIComponent('Name: '+firstName+' '+lastName+'\nEmail: '+email+'\nReason: '+(reason||'Not specified')+'\n\nMessage:\n'+message);window.location.href='mailto:boxpredict.team@gmail.com?subject='+subject+'&body='+body;setTimeout(()=>{document.getElementById('contactFormWrap').style.display='none';const s=document.getElementById('successMsg');s.style.display='flex';},800);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
